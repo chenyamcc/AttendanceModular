@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.woniuxy.oa.mapper.NotifyMapper">
+	<select id="selectAllUsers" resultType="User">
+		select * from user
+	</select>
+	
+	<update id="insertNotify">
+		insert into notify (ntitle,ncontent,edescribe,nfilepath,nfilename,receiverid,senderid) values (#{title},#{content},#{edescribe},#{filepath},#{filename},#{receiverid},#{senderid})
+	</update>
+	
+	<select id="selectMyReciveNotifys" resultType="Notify">
+		select * from notify where receiverid=#{uid} and asid=3
+	</select>
+	
+	<select id="selectMySendNotifys" resultType="Notify">
+		select * from notify where senderid=#{uid}
+	</select>
+	
+	<select id="selectUnameByUid" resultType="String">
+		select uname from user where uid=#{uid}
+	</select>
+		
+	<select id="selectNotifyById" resultType="Notify">
+		select * from notify where id=#{id}
+	</select>
+	
+	<select id="selectReceiveridByRealname" resultType="Integer">
+		select uid from user where uname=#{uname}
+	</select>
+	
+	<select id="selectSenderidByRecipinet" resultType="Integer">
+		select uid from user where uname=#{uname}
+	</select>
+	
+	<update id="updateNotifyById">
+		update notify set ntitle=#{title},ncontent=#{content},nfilepath=#{filepath},nfilename=#{filename},receiverid=#{receiverid},senderid=#{senderid} where id=#{id}
+	</update>
+	
+	<update id="deleteNotifyById">
+		delete from notify where id=#{id}
+	</update>
+	
+	<select id="selectUncheckedNotifys" resultType="Notify">
+		select * from notify where asid=1
+	</select>
+	
+	<update id="updateNotifyStateById">
+		update notify set asid=#{asid} where id=#{id}
+	</update>
+</mapper>

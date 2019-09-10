@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.woniuxy.oa.mapper.ApplyManageMapper">
+ 		<select id="selectAllApplyManages" resultType="ApplyManage">
+ 			select * from applymanage a,approvalstatus ap where flag=0 and a.asid=ap.asid;
+ 		</select>
+ 		
+ 		<insert id="insertApplyManage">
+ 			insert into  applymanage (goods,uid,edescribe) values(#{goods},#{uid},#{edescribe})
+ 		</insert>
+ 		
+ 		<update id="updateApplyManage">
+ 			update applymanage set goods=#{goods} where amid=#{amid};
+ 		</update>
+ 		
+ 		<delete id="deleteApplyManage">
+ 			update applymanage set flag=1 where amid=#{amid};
+ 		</delete> 
+ 		
+ 		<select id="selectApplyManageByamid" resultType="ApplyManage">
+ 			select * from applymanage a ,user u where amid=#{amid} and u.uid=a.uid;
+ 		</select>
+ 		
+ 		
+ 		<select id="selectAllApplyManagesByCondition" resultType="ApplyManage">
+ 		select * from applymanage a,approvalstatus ap,`user` u,approvalstatus aps
+ 		 where a.flag=0 and a.asid=ap.asid and a.uid=u.uid and a.asid=aps.asid and aps.rid=#{rid}
+ 		<include refid="condition" /> 
+ 		order by a.amid desc limit #{pageIndex},#{pageSize};
+ 		</select>
+ 	
+ 	
+ 	<sql id="condition">	
+ 			<if test="applyManage.uname!=null and applyManage.uname!=''">
+ 				and u.uname like '%' #{applyManage.uname} '%'
+ 			</if>
+ 			<if test="applyManage.goods!=null and applyManage.goods!=''">
+ 				and a.goods like '%' #{applyManage.goods} '%'
+ 			</if>
+ 	</sql>
+ 	
+ 	<select id="selectCountsByCondition" resultType="int">
+ 		select count(*) from applymanage a,approvalstatus aps ,`user` u where a.flag=0 
+ 		and a.asid=aps.asid and aps.rid=#{rid} and a.uid=u.uid
+ 		<include refid="condition"/>
+ 	</select>
+ 	
+ 	<update id="updateApplyManageAsidByAmid">
+ 		update applyManage set asid=#{asid} where amid=#{amid};	
+ 	</update>	
+ 		
+ </mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniuxy.oa.mapper.ScheduleMapper">
+	<!-- 查询schedule的总条数 -->
+	<select id="selectTotalRecored" resultType="int">
+		select count(*) from schedule
+		<include refid="sqlCondition"></include> 
+	</select>
+
+	<!-- 模糊查询条件 -->
+	<sql id="sqlCondition">
+		<where>
+			<if test="schedule.uname!=null and schedule.uname!=''">
+				and uname like '%' #{schedule.uname} '%'
+			</if>
+		</where>
+	</sql>
+	
+	<!-- 经理权限查询所有数据 -->
+	<select id="selectAllSchedules" resultType="Schedule">
+		select * from schedule
+		<include refid="sqlCondition"></include>
+		limit #{pageIndex},#{pageSize};		
+	</select>
+	
+	<select id="selectAll" resultType="Schedule">
+		select * from schedule
+		<include refid="sqlCondition"></include>
+	</select>
+	
+	<!--删除一条数据  -->
+	<delete id="deleteScheduleBySid" >
+		delete from schedule where sid=#{sid}
+	</delete>
+	
+	<!-- 修改，根据编号查询一条数据 -->
+	<select id="selectScheduleBySid" resultType="Schedule">
+		select * from schedule where sid=#{sid}
+	</select>
+	
+	<!--修改数据  -->
+	<update id="updateScheduleOne" parameterType="Schedule">
+		update schedule set datebegin=#{datebegin},dateend=#{dateend},transactiontype=#{transactiontype},schedulecontent=#{schedulecontent} where sid=#{sid}
+	</update>
+	
+	<select id="selectSchedulesAll" resultType="Schedule">
+		select * from schedule
+	</select>
+	
+	<!-- 根据姓名找id，用于添加一条数据 -->
+	<select id="selectSidByUname"  resultType="int">
+		select sid from schedule where uname=#{uname}
+	</select>
+	
+	<insert id="insertScheduleOne" parameterType="Schedule">
+		insert into schedule value(null,#{datebegin},#{dateend},#{transactiontype},#{schedulecontent},0,#{uid},#{uname})
+	</insert>
+	
+	<!-- 查询所有用户 -->
+	<select id="selectAllUsers" resultType="User">
+		select * from user 
+	</select>
+	
+	<select id="selectUidByUname" resultType="int">
+		select * from schedule where uname=#{uname}
+	</select>
+</mapper>

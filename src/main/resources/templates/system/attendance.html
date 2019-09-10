@@ -1,0 +1,91 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<title>考勤管理</title>
+</head>
+<body>
+	<div class="container" style="width: 100%; padding: 25px 15px;">
+		<div class="row clearfix">
+			<div class="col-md-12 column" style="padding: 20px;">
+				<div style="float: left;">
+					
+					<input type="button" class="btn btn-primary btn" value="签到"
+						onclick="javascript:location.href='/SignIn'" />
+					
+					<input type="button" class="btn btn-primary btn" value="签退"
+						onclick="javascript:location.href='/SignOut'" />
+				</div>
+				<form th:action="@{/queryAttendance}" method="post" id="attendForm"
+					role="form" class="form-inline"
+					style="float: right; margin-bottom: 10px;">
+					<div class="form-group" style="margin-right: 20px;">
+						<label for="signInStr" style="margin-right: 10px;">姓名</label><input
+							type="text" class="form-control" id="signInStr" name="name"
+							placeholder="请输入姓名" />
+					</div>
+					<div class="form-group">
+						<label for="signOutStr" style="margin-right: 10px;">日期信息</label><input
+							type="text" class="form-control" id="signOutStr" name="day"
+							placeholder="时间信息，如：2017-01-02" />
+					</div>
+					<input type="submit" class="btn btn-primary btn" value="查询" />
+					
+				</form>
+				<table class="table table-bordered" style="margin-top: 20px;">
+					<thead>
+						<tr>
+							<th style="width: 150px;">姓名</th>
+							<th>签到时间</th>
+							<th>签退时间</th>
+							<th>日期信息</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr class="success" th:each="att:${po.list}">
+							<td th:text="${att.uname}"></td>
+							<td
+								th:text="${#dates.format(att.begintime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+							<td
+								th:text="${#dates.format(att.endtime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+							<td th:text="${att.day}"></td>
+						</tr>
+
+					</tbody>
+				</table>
+				<nav aria-label="Page navigation">
+					<ul class="pagination">
+						<li><a th:href="@{${url}}+'&pageindex=1'"> <span
+								aria-hidden="true">首页</span>
+						</a></li>
+						
+						 <li th:if="${po.pageNum>1}">
+						 <a th:href="@{${url}}+'&pageindex='+${po.prePage}" aria-label="Previous">
+                         <span aria-hidden="true">&laquo;</span>
+                         </a></li>
+							
+						<li th:each="num:${po.navigatepageNums}">
+						<a th:href="@{${url}}+'&pageindex='+${num}" th:text="${num}">
+						</a></li>
+
+						<li th:if="${po.pageNum<po.pages}"><a th:href="@{${url}}+'&pageindex='+${po.nextPage}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                         </a></li>
+                         
+						<li><a
+							th:href="@{${url}}+'&pageindex='+${po.pages}"> <span
+								aria-hidden="true">尾页</span>
+						</a></li>
+						<li><a th:text="'一共'+${po.pages}+'页'"></a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/attendance.js"></script>
+</html>

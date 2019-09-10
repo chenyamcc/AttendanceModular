@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniuxy.oa.mapper.AttendanceMapper">
+	<insert id="insert">
+		insert into attendance (uid,begintime,uname,day) values
+		(#{uid},#{begintime},#{uname},#{day})
+	</insert>
+
+	<update id="update">
+		update attendance set endtime = #{endtime} where uid=#{uid} and
+		uname=#{uname} and day=#{day}
+	</update>
+
+
+	<select id="selectMyself" resultType="Attendance">
+		select * from attendance
+		<where>
+			<if test="attendance.uid!=0">
+				 uid=#{attendance.uid}
+			</if>
+			<if test="attendance.day!=null and attendance.day!=''">
+				and day=#{attendance.day}
+			</if>
+		</where>
+
+		
+	</select>
+
+	<select id="selectall" resultType="Attendance">
+		select * from attendance where uid in
+		<foreach collection="uidList" separator="," open="(" close=")"
+			item="uid">
+			#{uid}
+		</foreach>
+		<if test="attendance.uname!=null and attendance.uname!=''">
+			and	uname=#{attendance.uname}
+		</if>
+		<if test="attendance.day!=null and attendance.day!=''">
+			and day=#{attendance.day}
+		</if>
+		
+	</select>
+	
+	<select id="selectallinall"  resultType="Attendance">
+	   select * from attendance
+	</select>
+
+</mapper>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniuxy.oa.mapper.ExpenseMapper">
+	<!-- 查询所有报销条目(经理权限) -->
+	<select id="selectAllExpense" resultMap="expenseMapper">
+		select * from expense
+	</select>
+	<resultMap type="Expense" id="expenseMapper">
+		<id column="exid" property="exid"/>
+		<result column="exname" property="exname"/>
+		<result column="unit" property="unit"/>
+		<result column="asid" property="asid"/>
+		<association property="user" javaType="User" column="uid" select="selectUnameByuid"/>
+		<association property="approvalstatus" javaType="Approvalstatus" column="asid" select="selectAsnameByAsid"/>
+	</resultMap>
+	
+	<select id="selectUnameByuid" resultType="User">
+		select uname from user where uid=#{uid}
+	</select>
+	
+	<select id="selectAsnameByAsid" resultType="Approvalstatus">
+		select asname from approvalstatus where asid=#{asid}
+	</select>
+	
+	<!-- 通过姓名模糊查询:查询所有报销条目(经理权限) -->
+	<select id="selectAllExpenseByUname" resultMap="userMapper">
+		select * from user <include refid="find"/>
+	</select>
+	<sql id="find">
+		<where>
+			<if test="user.uname!=null and user.uname!=''">
+				and uname like '%' #{user.uname} '%'
+			</if>
+		</where>
+	</sql>
+	<resultMap type="User" id="userMapper">
+		<collection property="approvalstatuss" ofType="Expense" column="uid" select="selectExpenseByUid"/>
+	</resultMap>
+	
+	<select id="selectExpenseByUid" resultType="Expense">
+		select * from expense,approvalstatus where expense.asid=approvalstatus.asid and uid=#{uid}
+	</select>
+	
+	<!-- <多表>通过姓名模糊查询:查询所有报销条目(经理权限) -->
+	<select id="selectAllExpenseFuzzySqlByUname" resultType="ExpenseFuzzySql">
+		 select e.exid,e.uname,e.exname,e.unit,e.exmoney,a.asname from expense e inner join approvalstatus a  <include refid="fd"/>
+		limit #{pageIndex},#{pageSize};	
+	</select>
+	
+	<sql id="fd">
+		on e.asid=a.asid
+		<where>
+			e.flag=0 
+			<if test="user.uname!=null and user.uname!=''">
+			and	 e.uname like '%' #{user.uname} '%'
+			</if>
+		</where>
+	</sql>
+	
+	<select id="selectTotal" resultType="int">
+		select count(*) from expense e inner join approvalstatus a  <include refid="fd"/>
+	</select>
+	
+	<!--  删除报销条目(经理权限) -->
+	<!-- <delete id="deleteExpense">
+		delete from expense where exid=#{exid}
+	</delete> -->
+	
+	<!--  软删除报销条目(经理权限) -->
+	<update id="deleteExpense">
+		update expense set flag=1 where exid=#{exid}
+	</update>
+	
+	<!-- 查询所有姓名 -->
+	<select id="selectUname" resultType="User">
+		select uname from user
+	</select>
+	<!-- 根据姓名找uid -->
+	<select id="selectUidByUname" resultType="int">
+		select uid from user where uname=#{uname}
+	</select>
+	
+	<!-- 新增报销条目的方法  -->
+	<insert id="addExpense">
+		insert into expense values(
+		null,
+		#{exname},
+		#{unit},
+		#{exmoney},
+		#{uid},
+		#{asid},
+		#{atid},
+		#{pid},
+		#{flag},
+		#{uname},
+		#{edescribe})
+	</insert>
+	
+	<!-- 修改报销条目的方法 -->
+	<update id="updateExpense">
+		update expense set exname=#{exname},exmoney=#{exmoney} where exid=#{exid}
+	</update>
+	
+	
+	
+</mapper>

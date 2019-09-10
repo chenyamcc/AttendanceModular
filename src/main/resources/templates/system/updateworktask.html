@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+		<link href="css/style.css" rel='stylesheet' type='text/css' />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/overtime.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+<title>修改信息</title>
+</head>
+<body>
+	<div class="main">
+		<div class="header" >
+			<h1>《修改》工作计划</h1>
+		</div>
+		<p></p>
+			<form th:action="@{/worktask/update}" method="post">
+			<!-- 修改的隐藏表单 -->
+			<input type="hidden" name="_method" value="put">
+			<input type="hidden" name="wtid" th:value="${wtid}">
+				<ul class="left-form">
+				
+				<h2>工作开始时间(修改):</h2>
+						<li>
+						<input  type="text"  name="statime" placeholder="格式为:XXXX年XX月XX日" />
+						<div class="clear"> </div>
+					</li> 
+					
+				<h2>工作完成时间(修改):</h2>
+						<li>
+						<input type="text"  name="endtime" placeholder="格式为:XXXX年XX月XX日" />
+						<div class="clear"> </div>
+						</li> 
+						
+				<h2>遇到的问题(修改):</h2>
+						<li>
+						<input type="text"  name="problem" placeholder="本周遇到的问题" />
+								
+						<div class="clear"> </div>
+						</li> 
+						
+				<h2>下周工作计划(修改):</h2>
+						<li>
+						<input type="text"  name="nextplan" placeholder="下周的工作计划" />
+								
+						<div class="clear"> </div>
+						</li> 
+						
+				
+					<input class="sb" type="submit" onClick="myFunction()" value="提交修改后的工作计划">
+						<div class="clear"> </div>
+						
+				</ul>
+				<div class="clear"> </div>
+					
+			</form>
+			
+		</div>
+		
+		<script type="text/javascript">
+		$(function() {
+			$(".sb").click(function() {
+				if($(" input[ name='statime' ] ").val()==""){
+					alert("<工作开始时间>不能为空!");
+					return false
+				}
+				if($(" input[ name='endtime' ] ").val()==""){
+					alert("<工作完成时间>不能为空!");
+					return false
+				}
+				if($(" input[ name='problem' ] ").val()==""){
+					alert("<遇到的问题>不能为空!");
+					return false
+				}
+				if($(" input[ name='nextplan' ] ").val()==""){
+					alert("<下周计划>不能为空!");
+					return false
+				}
+				if (confirm('是否要提交数据?')) {
+					return true;
+				}
+				return false;
+			});
+		});
+	</script>
+		
+			
+
+	
+</body>
+</html>

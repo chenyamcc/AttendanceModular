@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.woniuxy.oa.mapper.SubscribManageMapper">
+ 		
+ 		<!-- 添加申购信息 -->
+ 		<insert id="insertSubscribManage">
+ 			insert into  subscribmanage (goods,uid,edescribe) values(#{goods},#{uid},#{edescribe})
+ 		</insert>
+ 		<!-- 更新申购信息  -->
+ 		<update id="updateSubscribManage">
+ 			update subscribmanage set goods=#{goods} where smid=#{smid};
+ 		</update>
+ 		<!-- 删除申购消息 -->
+ 		<delete id="deleteSubscribManageBysmid">
+ 			update subscribmanage set flag=1 where smid=#{smid};
+ 		</delete> 
+ 		
+ 		<select id="selectSubscribManageBysmid" resultType="SubscribManage">
+ 			select * from subscribmanage a,approvalstatus ap ,user u where smid=#{smid} and a.asid=ap.asid and u.uid=a.uid;
+ 		</select>
+ 		
+ 		
+ 		<select id="seleteSubscribManageByCondition" resultType="SubscribManage">
+	 		select * from subscribmanage as a 
+	 		inner join approvalstatus as ap
+	 		inner join `user` as u
+	 		inner join approvalstatus as aps
+	 		on a.asid=ap.asid  and a.flag=0 and a.uid=u.uid and a.asid=aps.asid and aps.rid=#{rid}
+	 		<include refid="condition"/> 
+	 		order by a.smid desc
+	 		limit #{pageIndex},#{pageSize};
+ 		</select>
+	
+ 	
+ 		<select id="selectCountsByCondition" resultType="int">
+ 			select count(*) from subscribmanage as a
+ 			inner join approvalstatus as aps
+ 			inner join `user` as u
+ 			on a.flag=0  and a.asid=aps.asid and aps.rid=#{rid} and a.uid=u.uid
+			<include refid="condition"/>
+ 		</select>
+ 	
+ 	<sql id="condition">
+ 			<if test="SubscribManage.uname!=null and SubscribManage.uname!=''">
+ 				and u.uname like '%' #{SubscribManage.uname} '%'
+ 			</if>
+ 			<if test="SubscribManage.goods!=null and SubscribManage.goods!=''">
+ 				and goods like '%' #{SubscribManage.goods} '%'
+ 			</if>
+ 	</sql>
+ 	
+ 	<select id="selectAllSubscribManages" resultType="SubscribManage">
+ 		select * from subscribmanage as sb 
+	 	left join approvalstatus as ap
+	 	on sb.asid=ap.asid  	
+ 	</select>
+ 		
+ 	<update id="updateSubscribManagesAsidBySmid">
+ 		update subscribmanage set asid=#{asid} where smid=#{smid};	
+ 	</update>	
+ 		
+ 		
+ </mapper>

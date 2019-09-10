@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<title>工作计划</title>
+<script type="text/javascript">
+	function operation(){
+	    alert("亲,该功能正在开发中");
+	    }
+</script>
+</head>
+<body>
+<div class="container" style="width: 100%;padding: 25px 15px;">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="padding: 20px;">
+               <div style="float: left;">
+                   <a th:href="@{/worktask/addjump}" class="btn btn-primary btn" >添加</a>
+            </div>
+            <form th:action="@{/worktask/show}"  method="get" id="userForm" role="form" class="form-inline" style="float: right;margin-bottom: 10px;">
+                <div class="form-group" style="margin-right: 20px;">
+                     <label for="realName" style="margin-right: 10px;">姓名</label><input type="text" class="form-control" id="uname" name="uname" placeholder="姓名"/>
+                </div>
+                <button  type="submit" class="btn btn-primary btn">查询</button>
+            </form>
+            <table class="table table-bordered" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">姓名</th>
+                        <th>工作《开始时间》</th>
+                        <th>工作《结束时间》</th>
+                        <th>遇到的问题</th>
+                        <th>下周计划</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="success" th:each="pb:${pb.list}">
+                        <td>[[${pb.uname}]]</td>
+                        <td>[[${pb.statime}]]</td>
+                        <td th:text="${pb.endtime}"></td>
+                        <td>[[${pb.problem}]]</td>
+                        <td>[[${pb.nextplan}]]</td>
+                        <td>
+                           <a th:href="@{/worktask/jumpupdate?wtid=}+${pb.wtid}" class="btn btn-primary btn" >修改</a>
+                            <a th:attr="deleteurl=@{/worktask/delete?wtid=}+${pb.wtid}" 
+                           class="btn btn-primary btn delete" href="#" >删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+				<!-- 页面显示 -->
+				<ul class="pagination" style="float: left; margin: 0;">
+					<li><a href="javascript:void(0)">总共:[[${pb.pages}]]页</a></li>
+					<li><a href="javascript:void(0)">总共:[[${pb.total}]]条数据</a></li>
+					<li><span>当前时间:</span><span id="cg">2016/12/21上午12:00:00</span></li>
+				</ul>
+				
+					<!--分页 -->
+            <ul class="pagination" style="float:right;;margin:0;">
+                <li><a th:href="${url}+'&pageIndex=1'">首页</a></li>
+                 <li th:if="${pb.pageNum} gt '1'">
+                <a th:href="${url}+'&pageIndex='+${pb.pageNum-1}" >上一页</a>
+                </li>
+                
+                <li th:each="i:${#numbers.sequence(pb.pageNum,pb.pages)}" >
+                <a th:href="${url}+'&pageIndex='+${i}" th:text="${i}"></a>
+                </li>
+             
+       			<li th:if="${pb.pageNum} lt ${pb.pages}">
+                <a th:href="${url}+'&pageIndex='+${pb.pageNum+1}">下一页</a>
+                </li>
+                <li><a th:href="${url}+'&pageIndex='+${pb.pages}">尾页</a></li>
+                <li><a href="javascript:void(0)">当前是第:[[${pb.pageNum}]]页</a></li>
+            </ul>
+            
+			</div>
+    </div>
+</div>
+
+<script>
+<!--这个cg就是span的id，初始化Date时间并转化为字符string类型,每1000毫秒，setInterval() 就会调用函数，直到被关闭。-->
+setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+</script>
+
+
+ <form id="deleteFrom" method="post">
+	<input type="hidden" name="_method" value="delete">
+</form>
+
+<script type="text/javascript">
+$(function(){
+	  $(".delete").click(function(){
+			if(confirm('是否要删除数据?')) 
+			  { 
+				$("#deleteFrom").attr("action",$(this).attr("deleteurl")).submit();
+			  } 
+			  return false; 
+		});
+});
+</script>
+
+
+
+
+</body>
+
+</html>

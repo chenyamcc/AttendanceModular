@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woniuxy.oa.mapper.AskForLeaveMapper">
+	<!-- 查询总条数 -->
+	<select id="selectTotalRecored" resultType="int">
+		select count(*) from askforleave,approvalstatus 
+		<include refid="sqlCondition"></include> 
+	</select>
+	
+	<!-- 模糊查询条件 -->
+	<sql id="sqlCondition">
+		<where>
+		askforleave.asid=approvalstatus.asid
+			<if test="askforleave.uname!=null and askforleave.uname!=''">
+ 				and uname like '%' #{askforleave.uname} '%'
+ 			</if>
+		</where>
+	</sql>
+
+
+	<!-- 经理权限查询所有数据 -->
+	<select id="selectAskForLeaveByAll" resultType="AskForLeave">
+		select * from askforleave,approvalstatus
+		<include refid="sqlCondition"></include>
+ 		<!-- 分页 -->
+ 		limit #{pageIndex},#{pageSize};		
+	</select> 
+	
+	<!-- 删除一条数据 -->
+	<delete id="deleteAskForLeaveById" >
+		delete from askforleave where alid=#{alid}
+	</delete>
+	
+	<!-- 查询所有用户 -->
+	<select id="selectAllUsers" resultType="User">
+		select * from user 
+	</select>
+	
+	<!-- 查询用户id -->
+	<select id="selectUidByUname" resultType="int">
+		select uid from user where uname=#{uname}
+	</select>
+	
+	<!-- 添加一条请假数据 -->
+	<insert id="insertAskForLeave" parameterType="AskForLeave">
+		insert into askforleave value(null,#{leavetype},#{datebegin},#{dateend},#{reason},#{uname},2,1,0,#{uid},null)
+	</insert>	
+	
+	<!-- 查询一条请假数据 -->
+	<select id="selectLeaveByAlid" resultType="AskForLeave">
+		select * from askforleave where alid=#{alid}
+	</select>
+	
+	<!-- 修改一条数据 -->
+	<update id="updateOneLeave" parameterType="AskForLeave">
+		update askforleave set leavetype=#{leavetype},datebegin=#{datebegin},dateend=#{dateend},reason=#{reason},uname=#{uname} where alid=#{alid}
+	</update>
+</mapper>

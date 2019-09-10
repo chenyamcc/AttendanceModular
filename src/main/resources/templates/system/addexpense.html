@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<link href="css/style.css" rel='stylesheet' type='text/css' />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+		<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+		<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+		<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="/js/overtime.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/style.css">
+</head>
+<body>
+	<div class="main">
+		<div class="header" >
+			<h1>《添加》报销项目详细表</h1>
+		</div>
+		<p></p>
+			<form th:action="@{/expense/add}" method="post">
+		
+				<ul class="left-form">
+				<h2>请选择报销人的姓名:</h2>
+					<li>
+						<select name="uname" >
+						<option >请选择你的姓名</option>
+						  <option th:each="u:${users}">[[${u.uname}]]</option>
+						</select>
+						<div class="clear"> </div>
+					</li> 
+				
+				
+				
+				<h2>报销项目的名称:</h2>
+						<li>
+						<input  type="text"  name="exname" placeholder="请输入报销项目的名称" />
+						<div class="clear"> </div>
+					</li> 
+					
+				<h2>报销金额:</h2>
+						<li>
+						<input type="text"  name="exmoney" placeholder="请输入报销金额:(元)" />
+						<div class="clear"> </div>
+						</li> 
+						
+				<h2>审批描述:</h2>
+						<li>
+						<input type="text"  name="edescribe" placeholder="请输入审批描述" />
+								
+						<div class="clear"> </div>
+						</li> 
+						
+					<input class="sb" id="sub" type="submit" value="提交报销表">
+						<div class="clear"> </div>
+						
+				</ul>
+				<div class="clear"> </div>
+					
+			</form>
+			
+		</div>
+
+	<script type="text/javascript">
+		$(function() {
+			$(".sb").click(function() {
+				if($(" input[ name='exname' ] ").val()==""){
+					alert("<报销项目>不能为空!");
+					return false
+				}
+				if($(" input[ name='exmoney' ] ").val()==""){
+					alert("<报销金额>不能为空!");
+					return false
+				}
+				if($(" input[ name='edescribe' ] ").val()==""){
+					alert("<审批描述>不能为空!");
+					return false
+				}
+				if (confirm('是否要提交数据?')) {
+					return true;
+				}
+				return false;
+			});
+		});
+	</script>
+
+
+</body>
+</html>

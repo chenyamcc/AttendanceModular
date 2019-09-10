@@ -1,0 +1,62 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<style type="text/css">
+	.inputText{width: 430px !important;}
+	.rowDiv{margin-bottom: 15px;}
+	.form-lavel{width: 80px;text-align: right;}
+</style>
+<title>申领信息</title>
+</head>
+<body>
+	<div class="container" style="width: 100%;padding: 25px 15px;">
+		<div class="row clearfix">
+			<div class="col-md-12 column" style="padding: 20px;padding-top: 0px;">
+				<form th:action="@{/subscribManage}" method="post" id="userForm" role="form" class="form-inline" style="margin-bottom: 10px;">
+					<div class="form" style="padding:5px;">
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="account">姓名：</label>
+									<select class="form-control inputText" name="uid">
+										<option th:each="user:${users}" th:value="${user.uid}" th:text="${user.uname}"></option>
+									</select> 
+									<span style="color: red;">*</span>
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="goods">申购物品：</label>
+									<input type="text" class="form-control inputText" id="goods" name="goods" placeholder="申购物品">
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="edescribe">审批描述：</label>
+									<textarea rows="5" cols="3" class="form-control inputText" name="edescribe" placeholder="审批描述"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<input type="submit" class="btn btn-primary btn-sm" value="提交">
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/user-info.js"></script>
+</html>

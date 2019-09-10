@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<title>考勤设置</title>
+</head>
+<body>
+<div class="container" style="width: 100%;padding: 25px 15px;">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="padding: 20px;">
+        <form action="#" method="post">
+        <h4>当前正在执行</h4>
+            <table class="table table-bordered" style="margin-top: 0px;">
+                <thead>
+                    <tr>
+                        <th style="display:none">ID</th>
+                        <th>设置时间</th>
+                        <th>上班时间</th>
+                        <th>午休开始时间</th>
+                        <th>午休结束时间</th>
+                        <th>下班时间</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="success">
+                        <td style="display:none"></td>
+                        <td th:text="${attendanceSetting.settime}">09:00:00</td>
+                        <td th:text="${attendanceSetting.begintime}">09:00:00</td>
+                        <td th:text="${attendanceSetting.afternoonbegintime}">12:00:00</td>
+                        <td th:text="${attendanceSetting.afternoonendtime}">13:00:00</td>
+                        <td th:text="${attendanceSetting.resttime}">18:00:00</td>
+                         <td>
+                               <a href="#" class="btn btn-primary btn" onclick="overtimeHTML('add',0)">新增</a>
+                              <a href="#" class="btn btn-primary btn" onclick="overtimeHTML('delete',0)">修改</a> 
+                        </td>
+                     </tr>
+                </tbody>
+            </table>
+            </form>
+        </div>
+    </div>
+    
+    
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="padding: 20px;">
+        <form action="#" method="post">
+        <h4>历史版本</h4>
+            <table class="table table-bordered" style="margin-top: 0px;">
+                <thead>
+                    <tr>
+                        <th style="display:none">ID</th>
+                        <th>设置时间</th>
+                        <th>上班时间</th>
+                        <th>午休开始时间</th>
+                        <th>午休结束时间</th>
+                        <th>下班时间</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                   
+                </tbody>
+            </table>
+            <ul class="pagination" style="float: right;margin: 0;"  id="ul">
+               
+            </ul>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/attendanceSetting.js"></script>
+</body>
+</html>

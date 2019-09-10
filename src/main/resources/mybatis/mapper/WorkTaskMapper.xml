@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniuxy.oa.mapper.WorkTaskMapper">
+
+	<!-- <根据姓名模糊查询>工作计划的所有数据 -->
+	<select id="selectWorkTaskAllByUname" resultType="WorkTask">
+		SELECT w.wtid,w.statime,w.endtime,w.problem,w.nextplan,u.uid,w.pid,u.uname FROM `user` u INNER JOIN worktask w
+		<include refid="find"/>
+	</select>
+	<sql id="find">
+		ON u.uid=w.uid
+		<where>
+		 w.flag=0
+		<if test="user.uname!=null and user.uname!=''">
+		AND	 u.uname like '%' #{user.uname} '%'
+		</if>
+		</where>
+	</sql>
+	
+	<!-- 删除数据(根据创建来的wid删除整行数据) -->
+	<update id="deleteWoekTaskOne">
+		update worktask set flag=1 where wtid=#{wtid}
+	</update>
+	<!-- 查找所有的uname -->
+	<select id="findAllUname" resultType="User">
+		select uname from `user`
+	</select>
+	
+	<insert id="addWorkTask">
+		insert into worktask values(
+		null,
+		#{statime},
+		#{endtime},
+		#{problem},
+		#{nextplan},
+		#{uid},
+		#{pid},
+		#{flag},
+		#{uname}
+		)
+	</insert>
+	<!-- 修改工作计划 -->
+	<update id="updateWorkTaskOne">
+		update worktask set 
+		statime=#{statime},
+		endtime=#{endtime},
+		problem=#{problem},
+		nextplan=#{nextplan} where wtid=#{wtid}
+	</update>
+	
+</mapper>

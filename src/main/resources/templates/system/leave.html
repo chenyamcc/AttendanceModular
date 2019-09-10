@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<title>请假管理</title>
+<script type="text/javascript" th:src="@{/js/jquery-2.2.3.min.js}"></script>
+<script type="text/javascript" th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+<script type="text/javascript">
+	$(function() {
+		$(".delhref").click(function() {
+			if(confirm("确定删除？")){
+				$("#deleteForm").attr("action",$(this).attr("deleteurl")).submit();
+			}
+		});
+	});
+</script>
+</head>
+<body>
+	<div class="container" style="width: 100%; padding: 25px 15px;">
+		<div class="row clearfix">
+			<div class="col-md-12 column" style="padding: 20px;">
+				<div style="float: left;">
+					<input type="button" class="btn btn-primary btn" onclick="window.location.href='/askForLeaveController/addleave'" value="添加" />
+				</div>
+				<form th:href="@{/askForLeaveController/doask}" method="GET" id="userForm" role="form"
+					class="form-inline" style="float: right; margin-bottom: 10px;">
+					<div class="form-group" style="margin-right: 20px;">
+						<label for="realName" style="margin-right: 10px;">姓名</label>
+						<input type="text" class="form-control" id="realName" name="uname" placeholder="姓名" />
+					</div>
+					<input type="submit" class="btn btn-primary btn"/>
+				</form>
+				<table class="table table-bordered" style="margin-top: 20px;">
+					<thead>
+						<tr>
+							<th>姓名</th>
+							<th>请假类型</th>
+							<th>开始时间</th>
+							<th>结束时间</th>
+							<th>请假原因</th>
+							<th>审批状态</th>
+							<th style="width: 150px;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="p:${pb.beanList}">
+							<td>[[${p.uname}]]</td>
+							<td>[[${p.leavetype}]]</td>
+							<td>[[${#dates.format(p.datebegin,"yyyy-MM-dd HH:mm:ss")}]]</td>
+							<td>[[${#dates.format(p.dateend,"yyyy-MM-dd HH:mm:ss")}]]</td>
+							<td th:text="${p.reason}"></td>
+							<td>[[${p.asname}]]</td>
+							<td>
+								<a class="btn btn-primary btn" th:href="@{/askForLeaveController/updateleave/}+${p.alid}" >修改</a> 
+								<a class="btn btn-primary btn delhref " th:attr="deleteurl=@{/askForLeaveController/dodel/}+${p.alid}" href="#">删除</a>  
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			<span>共[[${pb.totalRecored}]]条记录 共[[${pb.totalPage}]]页 当前第[[${pb.pageIndex}]]页</span>
+            <!-- 分页 -->
+            <ul class="pagination" style="float:right;;margin:0;">
+                <li><a th:href="${pb.url}+'&pageIndex=1'">首页</a></li>
+                <li th:if="${pb.pageIndex} gt '1'">
+                <a th:href="${pb.url}+'&pageIndex='+${pb.pageIndex-1}" >上一页</a>
+                </li>
+                
+                <li th:each="i:${#numbers.sequence(pb.pageBegin,pb.pageEnd)}">
+                <a th:href="${pb.url}+'&pageIndex='+${i}" th:text="${i}"></a>
+                </li>
+                
+                <li th:if="${pb.pageIndex} lt ${pb.totalPage}">
+                <a th:href="${pb.url}+'&pageIndex='+${pb.pageIndex+1}">下一页</a>
+                </li>
+                <li><a th:href="${pb.url}+'&pageIndex='+${pb.totalPage}">尾页</a></li>
+            </ul>
+			</div>
+		</div>
+	</div>
+<form id="deleteForm" method="post">
+	<input type="hidden" name="_method" value="delete">
+</form>	
+
+</body>
+</html>

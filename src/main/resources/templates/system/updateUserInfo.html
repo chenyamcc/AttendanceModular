@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<title>新增用户</title>
+<style type="text/css">
+	.inputText{width: 430px !important;}
+	.rowDiv{margin-bottom: 15px;}
+	.form-lavel{width: 80px;text-align: right;}
+</style>
+</head>
+<body>
+	<div class="container" style="width: 100%;padding: 25px 15px;">
+		<div class="row clearfix">
+			<div class="col-md-12 column" style="padding: 20px;padding-top: 0px;">
+				<form action="#" method="post" id="userForm" enctype="multipart/form-data" role="form" class="form-inline" style="margin-bottom: 10px;">
+					<div id="userInfoDiv" class="form" style="padding:5px;">
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="username">账号：</label>
+										<input type="hidden" name="uid" value="${userInfo.uiid }"/>
+									<input type="text" id="username" class="form-control inputText" th:value="${userInfo.username }" disabled="disabled">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="uname">姓名：</label>
+									<input type="text" class="form-control inputText" id="uname" name="uname" th:value="${userInfo.uname }">
+									<span style="color: red;">*</span>
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel">性别：</label>
+									<input type="radio" name="sex" value="0" th:checked="${userInfo.sex==0}"/>女&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="radio" name="sex" value="1" th:checked="${userInfo.sex==1}" />男&nbsp;&nbsp;&nbsp;&nbsp;
+									<input type="radio" name="sex" value="2" th:checked="${userInfo.sex==2}"/>未知
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="age">年龄：</label>
+									<input type="text" class="form-control inputText" id="age" name="age" th:value="${userInfo.age }">
+									<span style="color: red;">*</span>
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="mobile">手机号：</label>
+									<input type="text" class="form-control inputText" id="mobile" name="mobile" th:value="${userInfo.telephone }">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="email">邮箱：</label>
+									<input type="text" class="form-control inputText" id="email" name="email" th:value="${userInfo.email==null?'未填写':userInfo.email}">
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="birthday">生日：</label>
+									<input type="text" class="form-control inputText" id="birthday" name="birthday" th:value="${userInfo.birthday==null?'未填写':userInfo.birthday}" placeholder="生日,如：01-12">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="cardId">身份证：</label>
+									<input type="text" class="form-control inputText" id="cardId" name="cardId" th:value="${userInfo.cardId==null?'未填写':userInfo.cardId }">
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="rid">所属职位：</label>
+									<select class="form-control" id="rid" name="rid">
+										<option value="0" th:selected="${userInfo.rid==0}">总经理</option>
+										<option value="1" th:selected="${userInfo.rid==1}">部门经理</option>
+										<option value="2" th:selected="${userInfo.rid==2}">普通职员</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel">头像：</label>
+										<input type="file" name="file" style="display: inline-block;">
+										<img alt="" th:src="${userInfo.headImg==null?'':userInfo.headImg}" width="100" height="100">
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="entryTime">入职日期：</label>
+									<input type="text" class="form-control inputText" id="entryTime" name="entryTime" th:value="${userInfo.hireTime}" placeholder="入职日期，如：2017-01-01">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="status">员工状态：</label>
+									<select class="form-control" id="status" name="status">
+										<option value="0" th:selected="${userInfo.rid==0}">正式员工</option>
+										<option value="1" th:selected="${userInfo.rid==1}">离职</option>
+									</select>
+								</div>
+							</div>
+						</div>
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="form-group">
+										<input type="button" class="btn btn-primary btn" value="提交" onclick="javascript:location.href='/system/userList.html'"/>
+									</div>
+								</div>
+							</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/user-info.js"></script>
+</html>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniuxy.oa.mapper.UserInfoMapper">
+    <resultMap id="BaseResultMap" type="com.woniuxy.oa.entity.UserInfo">
+        <!--@mbg.generated-->
+        <id column="uiid" jdbcType="INTEGER" property="uiid"/>
+        <result column="sex" jdbcType="INTEGER" property="sex"/>
+        <result column="age" jdbcType="INTEGER" property="age"/>
+        <result column="telephone" jdbcType="BIGINT" property="telephone"/>
+        <result column="birthday" jdbcType="DATE" property="birthday"/>
+        <result column="hire_time" jdbcType="DATE" property="hireTime"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="card_id" jdbcType="VARCHAR" property="cardId"/>
+        <result column="head_img" jdbcType="VARCHAR" property="headImg"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        uiid, sex, age, telephone, birthday, hire_time, email, card_id, head_img
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from user_info
+        where uiid = #{uiid,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete from user_info
+        where uiid = #{uiid,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="uiid" keyProperty="uiid" parameterType="com.woniuxy.oa.entity.UserInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into user_info (sex, age, telephone,
+        birthday, hire_time, email,
+        card_id, head_img)
+        values (#{sex,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, #{telephone,jdbcType=BIGINT},
+        #{birthday,jdbcType=DATE}, #{hireTime,jdbcType=DATE}, #{email,jdbcType=VARCHAR},
+        #{cardId,jdbcType=VARCHAR}, #{headImg,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="uiid" keyProperty="uiid" parameterType="com.woniuxy.oa.entity.UserInfo"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into user_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uiid != null">
+                uiid,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="age != null">
+                age,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="hireTime != null">
+                hire_time,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="cardId != null">
+                card_id,
+            </if>
+            <if test="headImg != null">
+                head_img,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uiid != null">
+                #{uiid,jdbcType=INTEGER},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="age != null">
+                #{age,jdbcType=INTEGER},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=BIGINT},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=DATE},
+            </if>
+            <if test="hireTime != null">
+                #{hireTime,jdbcType=DATE},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="cardId != null">
+                #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="headImg != null">
+                #{headImg,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.woniuxy.oa.entity.UserInfo">
+        <!--@mbg.generated-->
+        update user_info
+        <set>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=INTEGER},
+            </if>
+            <if test="age != null">
+                age = #{age,jdbcType=INTEGER},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=BIGINT},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=DATE},
+            </if>
+            <if test="hireTime != null">
+                hire_time = #{hireTime,jdbcType=DATE},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="cardId != null">
+                card_id = #{cardId,jdbcType=VARCHAR},
+            </if>
+            <if test="headImg != null">
+                head_img = #{headImg,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where uiid = #{uiid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.woniuxy.oa.entity.UserInfo">
+        <!--@mbg.generated-->
+        update user_info
+        set sex = #{sex,jdbcType=INTEGER},
+        age = #{age,jdbcType=INTEGER},
+        telephone = #{telephone,jdbcType=BIGINT},
+        birthday = #{birthday,jdbcType=DATE},
+        hire_time = #{hireTime,jdbcType=DATE},
+        email = #{email,jdbcType=VARCHAR},
+        card_id = #{cardId,jdbcType=VARCHAR},
+        head_img = #{headImg,jdbcType=VARCHAR}
+        where uiid = #{uiid,jdbcType=INTEGER}
+    </update>
+    <select id="selectUserInfoByUid" resultType="map">
+        SELECT u.`uname`,
+               u.username,
+               u.flag,
+               u.`rid`,
+               i.age,
+               i.email,
+               i.telephone,
+               i.card_id cardId,
+               i.hire_time hireTime,
+               i.birthday,
+               i.sex,
+               i.head_img headImg
+        FROM USER u
+        INNER JOIN user_info i ON u.`uid` = i.`uiid` where uiid=#{uid}
+    </select>
+</mapper>

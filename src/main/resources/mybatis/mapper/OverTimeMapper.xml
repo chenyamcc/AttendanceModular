@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniuxy.oa.mapper.OverTimeMapper">
+	<insert id="insert" >
+	  insert into overtime (uid,applytime,begintime,endtime,
+	 overtime,edescribe,uname) values (#{uid},#{applytime},#{begintime},#{endtime},#{overtime},#{edescribe},#{uname})
+	</insert>
+	
+	
+	<update id="update" >
+	  update overtime set begintime=#{begintime},endtime=#{endtime},applytime=#{applytime},
+	  overtime=#{overtime},edescribe=#{edescribe} where oid=#{oid}  
+	    
+	</update>
+	
+	<select id="selectSelf" resultType="OverTime">
+	  select * from overtime 
+	  <where>
+	    <if test="uid!=0">
+	       uid=#{uid}
+	    </if>
+	    <if test="applytime!=null and applytime!=''">
+	       and applytime=#{applytime}
+	    </if>
+	  </where>
+	</select>
+	
+	
+	<select id="selectAll" resultType="OverTime">
+	   select * from overtime 
+	   <where>
+	    <if test="did!=0">
+	      uid in (select uid from user where did=#{did})
+	    </if>
+	   <if test="overtime.uname!=null and overtime.uname!=''">
+	     and uname=#{overtime.uname}
+	   </if>
+	   <if test="overtime.applytime!=null and overtime.applytime!=''">
+	     and applytime=#{overtime.applytime}
+	   </if>
+	   <if test="overtime.asname!=null and overtime.asname!=''">
+	     and asname=#{overtime.asname}
+	   </if>
+	   </where>
+	   
+	</select>
+	
+	<delete id="delete">
+	     delete from overtime where oid=#{oid} and asname="未审批"
+	</delete>
+
+</mapper>

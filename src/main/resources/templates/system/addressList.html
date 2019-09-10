@@ -1,0 +1,54 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<title>通讯录</title>
+</head>
+<body>
+<div class="container" style="width: 100%;padding: 25px 15px;">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="padding: 20px;">
+            <div style="float: left;">
+                 <input type="button" class="btn btn-primary btn" onclick="operation()" value="添加" /> 
+            </div>
+            <form action="/userAddress" method="get" id="userForm" role="form" class="form-inline" style="float: right;margin-bottom: 10px;">
+                <div class="form-group" style="margin-right: 20px;">
+                     <label for="uname" style="margin-right: 10px;">姓名</label>
+                    <input type="text" class="form-control" id="uname" name="uname" placeholder="姓名"/>
+                    <input type="hidden" name="pageIndex" value="1">
+                    <input type="hidden" name="rows" value="5">
+                </div>
+                <button type="submit" class="btn btn-primary btn">查询</button>
+            </form>
+            <table class="table table-bordered" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">姓名</th>
+                        <th >家庭住址</th>
+                        <th>移动电话</th>
+                        <th>固定电话</th>
+                        <th>紧急联系人</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="success" th:each="addressInfo:${result.list}">
+                        <td th:text="${addressInfo?.uname}"></td>
+                        <td th:text="${addressInfo?.address}"></td>
+                        <td th:text="${addressInfo?.mobilePhone}"></td>
+                        <td th:text="${addressInfo?.fixedPhone}"></td>
+                        <td th:text="${addressInfo?.emergency}"></td>
+                        <td>
+                           <a th:href="'/userAddress/'+${addressInfo.uaid}" class="btn btn-primary btn">修改</a>
+                           <a href="#" class="btn btn-primary btn">删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+</html>

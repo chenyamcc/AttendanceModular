@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/overtime.js"></script>
+<title>报销管理</title>
+
+</head>
+<body>
+<div class="container" style="width: 100%;padding: 25px 15px;">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="padding: 20px;">
+            <div style="float: left;">
+                   <a th:href="@{/expense/jump}" class="btn btn-primary btn" >添加</a>
+            </div>
+            <form th:action="@{/expense/show}" method="get" id="userForm" role="form" class="form-inline" style="float: right;margin-bottom: 10px;">
+                <div class="form-group" style="margin-right: 20px;">
+                     <label for="realName" style="margin-right: 10px;">姓名</label>
+                     <input type="text" class="form-control" id="uname" name="uname" placeholder="姓名"/>
+                </div>
+                <button type="submit" class="btn btn-primary btn" >查询</button>
+            </form>
+            <table class="table table-bordered" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">姓名</th>
+                        <th>报销项目名称</th>
+                        <th>计价单位</th>
+                        <th>报销项目单价</th>
+                        <th>审批状态</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   <tr class="success" th:each="ef:${pb.beanList}">
+                    	<td th:text="${ef.uname}"></td>
+                    	<td th:text="${ef.exname}"></td>
+                    	<td th:text="${ef.unit}"></td>
+                    	<td th:text="${ef.exmoney}"></td>
+                    	<td th:text="${ef.asname}"></td>
+                  		<td>
+                           <a th:href="@{/expense/jumpupdate?exid=}+${ef.exid}" class="btn btn-primary btn" >修改</a>
+                           <a th:attr="deleteurl=@{/expense/delete?exid=}+${ef.exid}" 
+                           class="btn btn-primary btn delete" href="#" >删除</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+           
+           <ul class="pagination" style="float:left;margin:0;">
+               <li><a href="javascript:void(0)">总共:[[${pb.totalPage}]]页</a></li>
+                <li><a href="javascript:void(0)">总共:[[${pb.toalRecpred}]]条数据</a></li>
+               
+                <li><span>当前时间:</span><span id="cg">2016/12/21 上午12:00:00</span></li>
+            </ul>
+            
+           
+            <br>
+            
+			<!--分页 -->
+            <ul class="pagination" style="float:right;;margin:0;">
+                <li><a th:href="${pb.url}+'&pageIndex=1'">首页</a></li>
+                <li th:if="${pb.pageIndex} gt '1'">
+                <a th:href="${pb.url}+'&pageIndex='+${pb.pageIndex-1}" >上一页</a>
+                </li>
+                
+                <li th:each="i:${#numbers.sequence(pb.pageBegin,pb.pageEnd)}">
+                <a th:href="${pb.url}+'&pageIndex='+${i}" th:text="${i}"></a>
+                </li>
+                
+                <li th:if="${pb.pageIndex} lt ${pb.totalPage}">
+                <a th:href="${pb.url}+'&pageIndex='+${pb.pageIndex+1}">下一页</a>
+                </li>
+                <li><a th:href="${pb.url}+'&pageIndex='+${pb.totalPage}">尾页</a></li>
+                 <li><a href="javascript:void(0)">当前是第:[[${pb.pageIndex}]]页</a></li>
+            </ul>
+            
+        </div>
+    </div>
+</div>
+
+<!-- 定义一个id为cg -->
+
+<script>
+<!--这个cg就是span的id，初始化Date时间并转化为字符string类型,每1000毫秒，setInterval() 就会调用函数，直到被关闭。-->
+setInterval("cg.innerHTML=new Date().toLocaleString()",1000);
+</script>
+
+
+
+ <form id="deleteFrom" method="post">
+	<input type="hidden" name="_method" value="delete">
+</form>
+
+<script type="text/javascript">
+$(function(){
+	  $(".delete").click(function(){
+			if(confirm('是否要删除数据?')) 
+			  { 
+				$("#deleteFrom").attr("action",$(this).attr("deleteurl")).submit();
+			  } 
+			  return false; 
+		});
+});
+</script>
+
+
+
+</body>
+</html>

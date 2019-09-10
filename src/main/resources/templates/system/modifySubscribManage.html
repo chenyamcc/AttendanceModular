@@ -1,0 +1,73 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<style type="text/css">
+	.inputText{width: 430px !important;}
+	.rowDiv{margin-bottom: 15px;}
+	.form-lavel{width: 80px;text-align: right;}
+</style>
+<title>用户信息</title>
+</head>
+<body>
+	<div class="container" style="width: 100%;padding: 25px 15px;">
+		<div class="row clearfix">
+			<div class="col-md-12 column" style="padding: 20px;padding-top: 0px;">
+				<form th:action="@{/subscribManage}" method="post" id="userForm" enctype="multipart/form-data" role="form" class="form-inline" style="margin-bottom: 10px;">
+					<input type="hidden" name="_method" value="put">
+					<div class="form" style="padding:5px;">
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="uname">姓名</label>
+									<input type="hidden" name="smid" th:value="${subscribManage.smid}">
+									<input type="text" class="form-control inputText" id="uname"  th:value="${subscribManage.uname}" disabled="disabled">
+									<span style="color: red;">*</span>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="subscribtime">申购时间</label>
+									<input type="text" class="form-control inputText" id="applytime"  th:value="${#dates.format(subscribManage.subscribtime,'yyyy-MM-dd')}" disabled="disabled">
+								</div>
+							</div>
+							
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="goods">申购物品</label>
+									<input type="text" class="form-control inputText" id="goods" name="goods" th:value="${subscribManage.goods}">
+								</div>
+							</div>
+						</div>
+						<div class="row rowDiv">
+							<div class="col-sm-6">
+								<div class="form-group">
+									<label class="form-lavel" for="mobile">审批描述：</label>
+									<textarea rows="5" cols="3" class="form-control inputText" name="edescribe" th:text="${subscribManage.edescribe}"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group">
+									<input type="submit" class="btn btn-primary btn-sm" value="提交" >
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/user-info.js"></script>
+</html>

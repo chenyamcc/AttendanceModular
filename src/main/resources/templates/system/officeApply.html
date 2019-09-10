@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css" />
+<title>办公用品申领</title>
+<script type="text/javascript">
+	function operation(){
+	    alert("亲,该功能正在开发中");
+	    }
+</script>
+</head>
+<body>
+<div class="container" style="width: 100%;padding: 25px 15px;">
+    <div class="row clearfix">
+        <div class="col-md-12 column" style="padding: 20px;">
+            <div style="float: left;">
+                  <input type="button" class="btn btn-primary btn"  onclick="javascript:location.href='/toAddPage'" value="添加" />
+            </div>
+            <form action="/applyManage" method="get" id="userForm" role="form" class="form-inline" style="float: right;margin-bottom: 10px;">
+                <div class="form-group" style="margin-right: 20px;">
+                     <label for="realName" style="margin-right: 10px;">姓名</label><input type="text" class="form-control" id="uname" name="uname" th:value="${applyManage.uname}" placeholder="姓名"/>
+                </div>
+                 <div class="form-group" style="margin-right: 20px;">
+                     <label for="realName" style="margin-right: 10px;">申领物品</label><input type="text" class="form-control" id="goods" name="goods" th:value="${applyManage.goods}" placeholder="申领物品"/>
+                </div>
+                <button type="submit" class="btn btn-primary btn"  >查询</button>
+            </form>
+            <table class="table table-bordered" style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th style="width: 150px;">姓名</th>
+                        <th>申领时间</th>
+                        <th>申领物品</th>
+                        <th>审批状态</th>
+                        <th style="width: 150px;">操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="success" th:each="applyManage:${pageBean.userNews}">
+                        <td>[[${applyManage.uname}]]</td>
+                        <td>[[${#dates.format(applyManage.applytime,"yyyy-MM-dd")}]]</td>
+                        <td>[[${applyManage.goods}]]</td>
+                        <td>[[${applyManage.asname}]]</td>
+                        <td>
+                         <a th:href="@{/toModifyPage/}+${applyManage.amid}" class="btn btn-primary btn "   >修改</a> 
+                        
+                           <a href="#" class="btn btn-primary btn deletebtn"   th:attr="deleteurl=@{/applyManage/}+${applyManage.amid}">删除</a>
+                        </td>
+                    </tr>  
+                </tbody>
+            </table>
+            
+            <span>共 [[${pageBean.totalNews}]] 条记录 共 [[${pageBean.totalPages}]] 页 当前第 [[${pageBean.page}]] 页</span>
+            <!-- 分页 -->
+            <ul class="pagination" style="float: right;margin: 0;">
+                <li><a th:href="${pageBean.url}+'&page=1'">首页</a></li>
+                <li th:if="${pageBean.page} gt '1'">
+               		 <a th:href="${pageBean.url}+'&page='+${pageBean.page-1}"  >上一页</a>
+                </li>
+                 <li th:each="i:${#numbers.sequence(pageBean.pageBegin,pageBean.pageEnd)}">
+               		 <a th:href="${pageBean.url}+'&page='+${i}" th:text="${i}" ></a>
+               	 </li>
+                <li th:if="${pageBean.page} lt ${pageBean.totalPages}">
+                <a th:href="${pageBean.url}+'&page='+${pageBean.page+1}" >下一页</a>
+                </li>
+                <li><a th:href="${pageBean.url}+'&page='+${pageBean.totalPages}">尾页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<form id="deleteform" method="post">
+	<input type="hidden" name="_method" value="delete">
+</form>
+
+</body>
+<script type="text/javascript" src="/js/jquery-2.2.3.min.js"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" th:src="@{/js/officeApply.js}"></script>
+<script type="text/javascript" src="/js/overtime.js"></script>
+</html>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.woniuxy.oa.mapper.AttendanceSettingMapper">
+  <insert id="insert">
+     insert into attendancesetting (begintime,afternoonbegintime,afternoonendtime,resttime,flag,settime) 
+     values (#{begintime},#{afternoonbegintime},#{afternoonendtime},#{resttime},1,#{settime})
+  </insert>
+  
+  <update id="update">
+     update attendancesetting set settime=#{settime},begintime=#{begintime},afternoonbegintime=#{afternoonbegintime},
+     afternoonendtime=#{afternoonendtime},resttime=#{resttime} where flag=1 and deleteflag=0
+  </update>
+  
+  <update id="setAllUseless">
+     update attendancesetting  set flag=0 where deleteflag=0
+  </update>
+  
+  <update id="startone">
+    update attendancesetting set flag=1 where asid=#{asid} and deleteflag=0
+  </update>
+  
+  <select id="selectAll" resultType="AttendanceSetting">
+     select * from attendancesetting where flag=0 and deleteflag=0
+  </select>
+  
+  <select id="selectone" resultType="AttendanceSetting">
+     select * from attendancesetting where flag=1 and deleteflag=0
+  </select>
+  
+  <update id="deleteone">
+     update attendancesetting set deleteflag=1 where asid=#{asid}
+  </update>
+	
+
+</mapper>
